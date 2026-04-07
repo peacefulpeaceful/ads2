@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -7,6 +8,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         LinkedList<BankAccount> accounts = new LinkedList<>();
         Stack<String> transactionHistory = new Stack<>();
+        Queue<String> billQueue = new LinkedList<>();
 
         for (int i = 0; i < 3; i++) {
             System.out.println("Enter data for account " + (i + 1));
@@ -49,11 +51,24 @@ public class Main {
 
         if (foundAccount == null) {
             System.out.println("Account not found.");
-        } else {
+            scanner.close();
+            return;
+        }
+
+        while (true) {
+            System.out.println();
             System.out.println("Choose operation:");
             System.out.println("1. Deposit");
             System.out.println("2. Withdraw");
             System.out.println("3. Bill payment");
+            System.out.println("4. Add bill request to queue");
+            System.out.println("5. Process next bill payment");
+            System.out.println("6. Display bill queue");
+            System.out.println("7. Show last transaction");
+            System.out.println("8. Undo last transaction");
+            System.out.println("9. Exit");
+            System.out.print("Enter choice: ");
+
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -68,6 +83,7 @@ public class Main {
                 transactionHistory.push(transaction);
 
                 System.out.println("New balance: " + foundAccount.getBalance());
+
             } else if (choice == 2) {
                 System.out.print("Withdraw: ");
                 double amount = scanner.nextDouble();
@@ -83,6 +99,7 @@ public class Main {
 
                     System.out.println("New balance: " + foundAccount.getBalance());
                 }
+
             } else if (choice == 3) {
                 System.out.print("Enter bill payment amount: ");
                 double amount = scanner.nextDouble();
@@ -99,24 +116,54 @@ public class Main {
                     System.out.println("Bill payment completed.");
                     System.out.println("New balance: " + foundAccount.getBalance());
                 }
+
+            } else if (choice == 4) {
+                System.out.print("Enter bill name: ");
+                String billName = scanner.nextLine();
+
+                billQueue.offer(billName);
+                System.out.println("Added: " + billName);
+
+            } else if (choice == 5) {
+                if (billQueue.isEmpty()) {
+                    System.out.println("Bill queue is empty.");
+                } else {
+                    String processedBill = billQueue.poll();
+                    System.out.println("Processing: " + processedBill);
+                }
+
+            } else if (choice == 6) {
+                if (billQueue.isEmpty()) {
+                    System.out.println("Queue is empty.");
+                } else {
+                    System.out.println("Bill Queue:");
+                    for (String bill : billQueue) {
+                        System.out.println(bill);
+                    }
+                }
+
+            } else if (choice == 7) {
+                if (!transactionHistory.isEmpty()) {
+                    System.out.println("Last transaction: " + transactionHistory.peek());
+                } else {
+                    System.out.println("No transactions in history.");
+                }
+
+            } else if (choice == 8) {
+                if (!transactionHistory.isEmpty()) {
+                    String removedTransaction = transactionHistory.pop();
+                    System.out.println("Undo -> " + removedTransaction + " removed");
+                } else {
+                    System.out.println("Nothing to undo.");
+                }
+
+            } else if (choice == 9) {
+                System.out.println("Program ended.");
+                break;
+
             } else {
                 System.out.println("Wrong operation.");
             }
-        }
-
-        System.out.println();
-        if (!transactionHistory.isEmpty()) {
-            System.out.println("Last transaction: " + transactionHistory.peek());
-        } else {
-            System.out.println("No transactions in history.");
-        }
-
-        System.out.println();
-        if (!transactionHistory.isEmpty()) {
-            String removedTransaction = transactionHistory.pop();
-            System.out.println("Undo -> " + removedTransaction + " removed");
-        } else {
-            System.out.println("Nothing to undo.");
         }
 
         scanner.close();
