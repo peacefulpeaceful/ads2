@@ -15,11 +15,17 @@ public class BankAccount {
     public double getBalance() {
         return balance;
     }
+    public void deposit(double amount){
+        balance = balance + amount;
+    }
+    public void withdraw(double amount){
+        balance = balance - amount;
+    }
     public String getUsername(){
         return username;
     }
     public void display(){
-        System.out.println("Account Number: " + accountNumber + " username: " + username + " balance: " + balance);
+        System.out.println("Account Nuzmber: " + accountNumber + " username: " + username + " balance: " + balance);
     }
     @Override
     public String toString(){
