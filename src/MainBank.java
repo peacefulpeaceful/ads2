@@ -11,29 +11,25 @@ public class MainBank {
     private Queue<String> billQueue = new LinkedList<>();
     private Queue<BankAccount> accountRequests = new LinkedList<>();
 
+    private BankAccount[] fixedAccounts = {
+            new BankAccount(1, "King", 1000),
+            new BankAccount(2, "Bebra", 2000),
+            new BankAccount(3, "Miomio", 3000)
+    };
+
     private AccountService accountService = new AccountService();
     private QueueService queueService = new QueueService();
 
-    public void addInitialAccounts() {
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Enter data for account " + (i + 1));
+    public MainBank() {
+        accounts.add(new BankAccount(1, "King", 1000));
+        accounts.add(new BankAccount(2, "Bebra", 2000));
+        accounts.add(new BankAccount(3, "Miomio", 3000));
+    }
 
-            System.out.print("Account number: ");
-            int accountNumber = scanner.nextInt();
-            scanner.nextLine();
-
-            System.out.print("Username: ");
-            String username = scanner.nextLine();
-
-            System.out.print("Balance: ");
-            double balance = scanner.nextDouble();
-            scanner.nextLine();
-
-            BankAccount account = new BankAccount(accountNumber, username, balance);
-            accounts.add(account);
-
-            System.out.println("Account added successfully.");
-            System.out.println();
+    public void showFixedArrayAccounts() {
+        System.out.println("Fixed Array Accounts:");
+        for (int i = 0; i < fixedAccounts.length; i++) {
+            fixedAccounts[i].display();
         }
     }
 
@@ -77,7 +73,7 @@ public class MainBank {
     public void atmMenu() {
         while (true) {
             System.out.println();
-            System.out.println("Atm Menu");
+            System.out.println("ATM Menu");
             System.out.println("1 - Balance enquiry");
             System.out.println("2 - Withdraw");
             System.out.println("3 - Back");
@@ -120,7 +116,8 @@ public class MainBank {
             System.out.println("6 - Show last transaction");
             System.out.println("7 - Undo last transaction");
             System.out.println("8 - Show all accounts");
-            System.out.println("9 - Back");
+            System.out.println("9 - Show fixed array accounts");
+            System.out.println("10 - Back");
             System.out.print("Choose: ");
 
             int choice = scanner.nextInt();
@@ -143,6 +140,8 @@ public class MainBank {
             } else if (choice == 8) {
                 accountService.showAllAccounts(accounts);
             } else if (choice == 9) {
+                showFixedArrayAccounts();
+            } else if (choice == 10) {
                 break;
             } else {
                 System.out.println("Wrong option.");

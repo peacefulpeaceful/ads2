@@ -4,12 +4,11 @@ public class Main {
     public static void main(String[] args) {
         MainBank bank = new MainBank();
         Scanner scanner = new Scanner(System.in);
-
-        bank.addInitialAccounts();
+        bank.showFixedArrayAccounts();
 
         while (true) {
             System.out.println();
-            System.out.println("BAnk Menu");
+            System.out.println("Bank Menu");
             System.out.println("1 - Enter Bank");
             System.out.println("2 - Enter ATM");
             System.out.println("3 - Admin Area");
