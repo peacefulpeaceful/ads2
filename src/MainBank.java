@@ -1,35 +1,19 @@
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class MainBank {
     private Scanner scanner = new Scanner(System.in);
 
-    private LinkedList<BankAccount> accounts = new LinkedList<>();
-    private Stack<String> transactionHistory = new Stack<>();
-    private Queue<String> billQueue = new LinkedList<>();
-    private Queue<BankAccount> accountRequests = new LinkedList<>();
-
-    private BankAccount[] fixedAccounts = {
-            new BankAccount(1, "King", 1000),
-            new BankAccount(2, "Bebra", 2000),
-            new BankAccount(3, "Miomio", 3000)
-    };
+    private MyLinkedList<BankAccount> accounts = new MyLinkedList<>();
+    private MyStack<String> transactionHistory = new MyStack<>(100);
+    private MyQueue<String> billQueue = new MyQueue<>();
+    private MyQueue<BankAccount> accountRequests = new MyQueue<>();
 
     private AccountService accountService = new AccountService();
     private QueueService queueService = new QueueService();
 
-    public MainBank() {
-        accounts.add(new BankAccount(1, "King", 1000));
-        accounts.add(new BankAccount(2, "Bebra", 2000));
-        accounts.add(new BankAccount(3, "Miomio", 3000));
-    }
-
-    public void showFixedArrayAccounts() {
-        System.out.println("Fixed Array Accounts:");
-        for (int i = 0; i < fixedAccounts.length; i++) {
-            fixedAccounts[i].display();
+    public void loadAccountsFromArray(BankAccount[] arrayAccounts) {
+        for (int i = 0; i < arrayAccounts.length; i++) {
+            accounts.add(arrayAccounts[i]);
         }
     }
 
@@ -116,8 +100,7 @@ public class MainBank {
             System.out.println("6 - Show last transaction");
             System.out.println("7 - Undo last transaction");
             System.out.println("8 - Show all accounts");
-            System.out.println("9 - Show fixed array accounts");
-            System.out.println("10 - Back");
+            System.out.println("9 - Back");
             System.out.print("Choose: ");
 
             int choice = scanner.nextInt();
@@ -140,8 +123,6 @@ public class MainBank {
             } else if (choice == 8) {
                 accountService.showAllAccounts(accounts);
             } else if (choice == 9) {
-                showFixedArrayAccounts();
-            } else if (choice == 10) {
                 break;
             } else {
                 System.out.println("Wrong option.");

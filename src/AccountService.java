@@ -1,22 +1,24 @@
-import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class AccountService {
 
-    public BankAccount findAccountByUsername(Scanner scanner, LinkedList<BankAccount> accounts) {
+    public BankAccount findAccountByUsername(Scanner scanner, MyLinkedList<BankAccount> accounts) {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
 
-        for (BankAccount account : accounts) {
-            if (account.getUsername().equalsIgnoreCase(username)) {
-                return account;
+        Node<BankAccount> current = accounts.getHead();
+
+        while (current != null) {
+            if (current.data.getUsername().equalsIgnoreCase(username)) {
+                return current.data;
             }
+            current = current.next;
         }
+
         return null;
     }
 
-    public void depositMoney(Scanner scanner, BankAccount account, Stack<String> transactionHistory) {
+    public void depositMoney(Scanner scanner, BankAccount account, MyStack<String> transactionHistory) {
         System.out.print("Enter deposit amount: ");
         double amount = scanner.nextDouble();
         scanner.nextLine();
@@ -29,7 +31,7 @@ public class AccountService {
         System.out.printf("New balance: %.2f%n", account.getBalance());
     }
 
-    public void withdrawMoney(Scanner scanner, BankAccount account, Stack<String> transactionHistory) {
+    public void withdrawMoney(Scanner scanner, BankAccount account, MyStack<String> transactionHistory) {
         System.out.print("Enter withdraw amount: ");
         double amount = scanner.nextDouble();
         scanner.nextLine();
@@ -50,14 +52,20 @@ public class AccountService {
         System.out.printf("Balance: %.2f%n", account.getBalance());
     }
 
-    public void showAllAccounts(LinkedList<BankAccount> accounts) {
+    public void showAllAccounts(MyLinkedList<BankAccount> accounts) {
         if (accounts.isEmpty()) {
             System.out.println("No accounts available.");
-        } else {
-            System.out.println("Accounts List:");
-            for (int i = 0; i < accounts.size(); i++) {
-                System.out.println((i + 1) + ". " + accounts.get(i));
-            }
+            return;
+        }
+
+        System.out.println("Accounts List:");
+        Node<BankAccount> current = accounts.getHead();
+        int i = 1;
+
+        while (current != null) {
+            System.out.println(i + ". " + current.data);
+            current = current.next;
+            i++;
         }
     }
 }

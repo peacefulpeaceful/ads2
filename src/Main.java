@@ -4,7 +4,13 @@ public class Main {
     public static void main(String[] args) {
         MainBank bank = new MainBank();
         Scanner scanner = new Scanner(System.in);
-        bank.showFixedArrayAccounts();
+
+        BankAccount[] arrayAccounts = new BankAccount[3];
+        arrayAccounts[0] = new BankAccount(1, "Murino", 1000);
+        arrayAccounts[1] = new BankAccount(2, "Sasha", 2000);
+        arrayAccounts[2] = new BankAccount(3, "Artur", 3000);
+
+        bank.loadAccountsFromArray(arrayAccounts);
 
         while (true) {
             System.out.println();
